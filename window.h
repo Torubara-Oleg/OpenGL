@@ -4,6 +4,7 @@
 #include "KHR/khrplatform.h"
 #include <iostream>
 #include <vector>
+#include "camera.h"
 
 void init_window()
 {
@@ -24,11 +25,19 @@ GLFWwindow* create_window(int SCR_WIDTH, int SCR_HEIGHT, const char* name)
 	return window;
 }
 
-// ќбработка всех событий ввода: запрос GLFW о нажатии/отпускании клавиш на клавиатуре в данном кадре и соответствующа€ обработка данных событий
-void processInput(GLFWwindow* window)
+void processInput(GLFWwindow* window, float deltaTime, Camera& camera )
 {
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, true);
+
+	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+		camera.ProcessKeyboard(FORWARD, deltaTime);
+	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+		camera.ProcessKeyboard(BACKWARD, deltaTime);
+	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+		camera.ProcessKeyboard(LEFT, deltaTime);
+	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+		camera.ProcessKeyboard(RIGHT, deltaTime);
 }
 
 // glfw: вс€кий раз, когда измен€ютс€ размеры окна (пользователем или операционной системой), вызываетс€ данна€ callback-функци€
@@ -99,3 +108,4 @@ void Hello()
 {
 	std::cout << "Hello" << std::endl;
 }
+

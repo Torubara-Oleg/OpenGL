@@ -31,7 +31,7 @@ void Model::LoadModel(std::string filepath)
 	std::vector<std::array<double, 3>> vPos = plyIn.getVertexPositions();
 	std::vector<std::vector<size_t>> fInd = plyIn.getFaceIndices<size_t>();
 
-	for (size_t i = 0; i < vPos.size(); i+=3)
+	for (size_t i = 0; i < vPos.size(); i++)
 	{
 		for (size_t j = 0; j < 3; j++)
 		{
