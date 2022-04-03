@@ -94,3 +94,8 @@ unsigned int Attributes::get_VAO()
 {
 	return this->VAO;
 }
+
+void Hello()
+{
+	std::cout << "Hello" << std::endl;
+}

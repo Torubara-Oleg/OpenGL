@@ -35,6 +35,7 @@ int main()
 
     loadGlad();
         
+    Hello();
 
     model.LoadModel("D:\\c++\\Model_reader\\models\\Fantasy_Dragon.ply");
     Shader cube("D:\\c++\\Model_reader\\cube.vs", "D:\\c++\\Model_reader\\cube.fs");
