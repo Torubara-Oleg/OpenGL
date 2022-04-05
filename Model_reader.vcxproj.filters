@@ -13,13 +13,31 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="shaders">
+      <UniqueIdentifier>{7dedad52-2189-4373-8f45-0525ac683cd9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="shaders\cube">
+      <UniqueIdentifier>{e4f138f0-2936-411f-a2b6-3c68659f7e20}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="cube.fs">
-      <Filter>Исходные файлы</Filter>
+      <Filter>shaders\cube</Filter>
     </None>
     <None Include="cube.vs">
-      <Filter>Исходные файлы</Filter>
+      <Filter>shaders\cube</Filter>
+    </None>
+    <None Include="models\Car_wheel_cap.ply">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
+    <None Include="models\Copper_key.ply">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
+    <None Include="models\Fantasy_Dragon.ply">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
+    <None Include="models\Meetal_nut.ply">
+      <Filter>Файлы ресурсов</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -27,6 +45,15 @@
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="Attributes.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="model.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="window.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
@@ -44,6 +71,9 @@
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="camera.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="Attributes.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>

@@ -21,12 +21,20 @@
   <ItemGroup>
     <None Include="cube.fs" />
     <None Include="cube.vs" />
+    <None Include="models\Car_wheel_cap.ply" />
+    <None Include="models\Copper_key.ply" />
+    <None Include="models\Fantasy_Dragon.ply" />
+    <None Include="models\Meetal_nut.ply" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Attributes.cpp" />
     <ClCompile Include="glad.c" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="model.cpp" />
+    <ClCompile Include="window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Attributes.h" />
     <ClInclude Include="camera.h" />
     <ClInclude Include="happly.h" />
     <ClInclude Include="model.h" />

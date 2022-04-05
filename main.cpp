@@ -14,9 +14,10 @@ const std::string NAME = "Project";
 
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
+int main_loop();
 
 // Камера
-Camera camera(glm::vec3(0.0f, 0.0f, 10.0f));
+Camera camera(glm::vec3(0.0f, 0.0f, 100.0f));
 float lastX = WIDTH / 2.0f;
 float lastY = HEIGHT / 2.0f;
 bool firstMouse = true;
@@ -25,22 +26,31 @@ float deltaTime = 0.0f;	// время между текущим кадром и 
 float lastFrame = 0.0f;
 
 std::vector<float> triagle = {
-    0.5f,  0.5f, 0.0f,  // Top Right
-    0.5f, -0.5f, 0.0f,  // Bottom Right
-     -0.5f, -0.5f, 0.0f,  // Bottom Left
-        -0.5f,  0.5f, 0.0f   // Top Left 
+    0.5f,  0.5f, 0.0f,  
+    0.5f, -0.5f, 0.0f, 
+   -0.5f, -0.5f, 0.0f,  
+   -0.5f,  0.5f, 0.0f   
 };
 
-std::vector<unsigned int> indices = {  // Note that we start from 0!
-       0, 1, 3,  // First Triangle
-       1, 2, 3   // Second Triangle
+std::vector<unsigned int> indices = { 
+       0, 1, 3,  
+       1, 2, 3   
 };
 
 int main()
 {
-    Model model_;
-    //Shader cube("D:\\c++\\Learn[OpenGL]\\Learn[OpenGL]\\cube.vs","D:\\c++\\Learn[OpenGL]\\Learn[OpenGL]\\cube.fs");
+    try
+    {
+        main_loop();
+    }
+    catch(_exception& ex)
+    {
+        throw ex.name;
+    }
+}
 
+int main_loop()
+{
     init_window();
 
     GLFWwindow* window = create_window(WIDTH, HEIGHT, NAME.c_str());
@@ -51,24 +61,23 @@ int main()
     glfwSetScrollCallback(window, scroll_callback);
 
     loadGlad();
-        
+
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
     glEnable(GL_DEPTH_TEST);
 
+
+    Model model_;
     model_.LoadModel("D:\\c++\\Model_reader\\models\\Copper_key.ply");
     Shader cube("D:\\c++\\Model_reader\\cube.vs", "D:\\c++\\Model_reader\\cube.fs");
-    
-    Attributes at;
-   
-    glBindVertexArray(at.get_VAO());
-    at.set_VBO(model_.vertex);
-    at.set_EBO(model_.index);
-    
+
+    glBindVertexArray(model_.model_attributes.get_VAO());
+    model_.model_attributes.set_VBO(model_.vertex);
+    model_.model_attributes.set_EBO(model_.index);
+
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, (void*)0);
     glEnableVertexAttribArray(0);
 
-
-    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    DrawMode_Polygon();
 
     glm::vec3 Color;
 
@@ -79,7 +88,7 @@ int main()
         lastFrame = currentFrame;
 
         // Обработка ввода
-        processInput(window,deltaTime,camera);
+        processInput(window, deltaTime, camera);
 
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // очищаем буфер цвета и буфер глубины
@@ -91,30 +100,28 @@ int main()
 
         cube.setFloat3("Color", glm::vec3(x, y, z));
 
-        // Передаем шейдеру матрицу проекции (поскольку проекционная матрица редко меняется, то нет необходимости делать это для каждого кадра)
         glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)WIDTH / (float)HEIGHT, 0.1f, 1000.0f);
         cube.setMat4("proj", projection);
 
-        // Создаем преобразование камеры/вида
         glm::mat4 view = camera.GetViewMatrix();
         cube.setMat4("view", view);
-        glBindVertexArray(at.get_VAO());
+        glBindVertexArray(model_.model_attributes.get_VAO());
 
         glm::mat4 model = glm::mat4(1.0f);
-        model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f) );
+        model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
         model = glm::scale(model, glm::vec3(0.1));
         model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
         model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 0.0f, 1.0f));
         model = glm::rotate(model, glm::radians((float)glfwGetTime() * (float)12), glm::vec3(0.0, 1.0, 0.0));
         cube.setMat4("model", model);
 
-        glDrawElements(GL_TRIANGLES,model_.index.size(),/*indices.size()*/ GL_UNSIGNED_INT, 0);
+        GL_func(glDrawElements(GL_TRIANGLES, model_.index.size(),/*indices.size()*/ GL_UNSIGNED_INT, 0));
 
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
 
-    at.~Attributes();
+    model_.model_attributes.~Attributes();
 
     glfwTerminate();
     return 0;
