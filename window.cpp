@@ -63,6 +63,7 @@ int loadGlad()
 		std::cout << "Failed to initialize GLAD" << std::endl;
 		return -1;
 	}
+	std::cout << "[OpenGL] Version: " << glGetString(GL_VERSION) << std::endl;
 }
 
 void DrawMode_Polygon()

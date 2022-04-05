@@ -53,6 +53,8 @@ int main_loop()
 {
     init_window();
 
+    
+
     GLFWwindow* window = create_window(WIDTH, HEIGHT, NAME.c_str());
 
     glfwMakeContextCurrent(window);

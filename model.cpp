@@ -5,7 +5,7 @@ void Model::LoadModel(std::string filepath)
 	// Construct the data object by reading from file
 	happly::PLYData plyIn(filepath);
 
-	std::cout << "[happly]: start reading mesh." << std::endl;
+	std::cout << "[happly]: Start reading mesh: " << filepath << std::endl;
 
 	// Get mesh-style data from the object
 	std::vector<std::array<double, 3>> vPos = plyIn.getVertexPositions();
@@ -20,7 +20,7 @@ void Model::LoadModel(std::string filepath)
 			aabb.max[j] = std::max(static_cast<float>(vPos[i][j]), aabb.max[j]);
 		}
 	}
-	std::cout << "[happly]: Vertex: done!" << "\n";
+	std::cout << "[happly]: Amount of vertices: " << vertex.size() << "\n";
 
 	for (size_t i = 0; i < fInd.size(); i++)
 	{
@@ -30,7 +30,7 @@ void Model::LoadModel(std::string filepath)
 		}
 	}
 
-	std::cout << "[happly]: Index: done!" << "\n";
+	std::cout << "[happly]: Amount of indices: " <<index.size()<< "\n";
 
 }
 
