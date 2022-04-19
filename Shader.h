@@ -7,12 +7,15 @@
 #include <fstream>
 #include <sstream>
 #include <iostream>
+#include <unordered_map>
 
 class Shader
 {
 public:
     unsigned int ID;
 
+    mutable std::unordered_map<std::string, GLint> Uniform_cache; /*делает переменные в константной среде измен€емыми, например в const методах 
+                                                                  сама map нужна дл€ храненени€ кеша Uniform переменных шейдерной программы*/
     //  онструктор генерирует шейдер на лету
     Shader(const char* vertexPath, const char* fragmentPath)
     {
@@ -87,24 +90,24 @@ public:
     // ѕолезные uniform-функции
     void setBool(const std::string& name, bool value) const
     {
-        glUniform1i(glGetUniformLocation(ID, name.c_str()), (int)value);
+        glUniform1i(getUniformLocation(name), (int)value);
     }
     void setInt(const std::string& name, int value) const
     {
-        glUniform1i(glGetUniformLocation(ID, name.c_str()), value);
+        glUniform1i(getUniformLocation(name), value);
     }
     void setFloat(const std::string& name, float value) const
     {
-        glUniform1f(glGetUniformLocation(ID, name.c_str()), value);
+        glUniform1f(getUniformLocation(name), value);
     }
     void setFloat3(const std::string& name, glm::vec3 val) const
     {
-        glUniform3f(glGetUniformLocation(ID, name.c_str()), val.x, val.y, val.z);
+        glUniform3f(getUniformLocation(name), val.x, val.y, val.z);
     }
 
     void setMat4(const std::string& name, const glm::mat4& mat) const
     {
-        glUniformMatrix4fv(glGetUniformLocation(ID, name.c_str()), 1, GL_FALSE, &mat[0][0]);
+        glUniformMatrix4fv(getUniformLocation(name), 1, GL_FALSE, &mat[0][0]);
     }
 
 private:
@@ -131,6 +134,18 @@ private:
                 std::cout << "ERROR::PROGRAM_LINKING_ERROR of type: " << type << "\n" << infoLog << "\n -- --------------------------------------------------- -- " << std::endl;
             }
         }
+    }
+
+    GLint getUniformLocation(const std::string& name) const //выполн€ет кеширование Uniform переменных(их адресов)
+    {
+        if (Uniform_cache.find(name) != Uniform_cache.end())
+        {
+            return Uniform_cache[name];
+        }
+
+        GLint location = glGetUniformLocation(ID, name.c_str());
+        Uniform_cache[name] = location;
+        return location;
     }
 };
 #endif
